@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Nathan! 🎉</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #F5E6D3 0%, #E8D5C4 100%);
+            color: #2d2520;
+            overflow-x: hidden;
+        }
+
+        /* Confetti */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #5FCDBE;
+            opacity: 0;
+            animation: confetti-fall 3s ease-out forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                opacity: 1;
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(720deg);
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(245, 230, 211, 0.8) 0%, rgba(232, 213, 196, 0.9) 50%, rgba(245, 230, 211, 0.8) 100%);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(95, 205, 190, 0.2) 0%, transparent 70%);
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+        }
+
+        .hero h1 {
+            position: relative;
+            font-size: clamp(2.5rem, 10vw, 6rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #5FCDBE 0%, #4AB5A5 50%, #5FCDBE 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-shift 3s ease infinite, bounce-in 1s ease;
+            letter-spacing: -2px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes bounce-in {
+            0% { opacity: 0; transform: scale(0.5) translateY(-50px); }
+            60% { transform: scale(1.1) translateY(0); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .birthday-icon {
+            font-size: 5rem;
+            margin-top: 2rem;
+            animation: rotate-bounce 2s ease-in-out infinite;
+            filter: drop-shadow(0 0 30px rgba(95, 205, 190, 0.6));
+        }
+
+        @keyframes rotate-bounce {
+            0%, 100% { transform: rotate(0deg) translateY(0); }
+            25% { transform: rotate(-10deg) translateY(-10px); }
+            75% { transform: rotate(10deg) translateY(-10px); }
+        }
+
+        /* Section Base */
+        section {
+            position: relative;
+            min-height: 100vh;
+            padding: 6rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 4rem;
+            background: linear-gradient(135deg, #5FCDBE 0%, #8B7355 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .section-title.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Interactive Cards */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            max-width: 1400px;
+            width: 100%;
+            perspective: 2000px;
+        }
+
+        .interactive-card {
+            position: relative;
+            background: linear-gradient(145deg, rgba(95, 205, 190, 0.08) 0%, rgba(139, 115, 85, 0.05) 100%);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 3rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: all 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+            border: 2px solid rgba(95, 205, 190, 0.3);
+            opacity: 0;
+            transform: translateY(80px) rotateX(15deg);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .interactive-card.visible {
+            opacity: 1;
+            transform: translateY(0) rotateX(0);
+        }
+
+        .interactive-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #5FCDBE, #C4A574, #5FCDBE);
+            border-radius: 25px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            background-size: 300% 300%;
+            animation: gradient-flow 3s ease infinite;
+        }
+
+        @keyframes gradient-flow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .interactive-card:hover::before {
+            opacity: 1;
+        }
+
+        .interactive-card:hover {
+            transform: translateY(-20px) rotateX(5deg) scale(1.05);
+            box-shadow: 0 30px 80px rgba(95, 205, 190, 0.3);
+            background: linear-gradient(145deg, #E8D5C4 0%, #D4C4B0 100%);
+        }
+
+        .card-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            filter: drop-shadow(0 10px 20px rgba(95, 205, 190, 0.3));
+        }
+
+        .interactive-card:hover .card-icon {
+            transform: scale(1.3) rotate(360deg);
+            filter: drop-shadow(0 15px 30px rgba(95, 205, 190, 0.6));
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #5FCDBE;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .card-text {
+            font-size: 1.1rem;
+            color: #2d2520;
+            line-height: 1.8;
+            font-weight: 300;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .interactive-card:hover .card-text {
+            opacity: 1;
+            max-height: 200px;
+            color: white;
+        }
+
+        /* Reasons Section */
+        .reasons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .reason-item {
+            background: linear-gradient(135deg, rgba(95, 205, 190, 0.15) 0%, rgba(139, 115, 85, 0.08) 100%);
+            border-left: 5px solid #5FCDBE;
+            padding: 2rem;
+            border-radius: 15px;
+            font-size: 1.15rem;
+            color: #2d2520;
+            opacity: 0;
+            transform: translateX(-60px);
+            transition: all 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .reason-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reason-item:hover {
+            background: linear-gradient(135deg, rgba(95, 205, 190, 0.25) 0%, rgba(139, 115, 85, 0.12) 100%);
+            transform: translateX(15px) scale(1.03);
+            border-left-width: 8px;
+            box-shadow: 0 15px 40px rgba(95, 205, 190, 0.25);
+        }
+
+        /* Goals Section */
+        .goals-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .goal-card {
+            background: linear-gradient(145deg, rgba(95, 205, 190, 0.12) 0%, rgba(139, 115, 85, 0.08) 100%);
+            border-radius: 20px;
+            padding: 3rem 2.5rem;
+            text-align: center;
+            border: 2px solid rgba(95, 205, 190, 0.3);
+            opacity: 0;
+            transform: scale(0.7) rotateY(20deg);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            backdrop-filter: blur(8px);
+        }
+
+        .goal-card.visible {
+            opacity: 1;
+            transform: scale(1) rotateY(0);
+        }
+
+        .goal-card:hover {
+            transform: scale(1.1) translateY(-15px) rotateY(5deg);
+            border-color: #5FCDBE;
+            box-shadow: 0 20px 50px rgba(95, 205, 190, 0.3);
+        }
+
+        .goal-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .goal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #5FCDBE;
+            margin-bottom: 1rem;
+        }
+
+        .goal-text {
+            color: #2d2520;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        /* Final Message */
+        .final-message-box {
+            max-width: 900px;
+            padding: 4rem 3rem;
+            background: linear-gradient(145deg, rgba(95, 205, 190, 0.15) 0%, rgba(139, 115, 85, 0.1) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            border: 3px solid rgba(95, 205, 190, 0.3);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .final-message-box p {
+            font-size: 1.3rem;
+            line-height: 2.2;
+            color: #2d2520;
+            margin-bottom: 2rem;
+        }
+
+        .signature {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: #5FCDBE;
+            margin-top: 3rem;
+            font-weight: 500;
+        }
+
+        /* Fireworks Button */
+        .fireworks-trigger {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #5FCDBE, #4AB5A5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 15px 40px rgba(95, 205, 190, 0.5);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            animation: bounce-icon 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce-icon {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .fireworks-trigger:hover {
+            transform: scale(1.2) rotate(15deg);
+            box-shadow: 0 20px 60px rgba(95, 205, 190, 0.7);
+        }
+
+        .secret-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+        }
+
+        .secret-modal.active {
+            display: flex;
+            animation: modal-fade-in 0.4s ease;
+        }
+
+        @keyframes modal-fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .secret-content {
+            background: linear-gradient(145deg, #F5E6D3, #E8D5C4);
+            padding: 5rem 4rem;
+            border-radius: 30px;
+            border: 4px solid #5FCDBE;
+            max-width: 700px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 40px 100px rgba(95, 205, 190, 0.5);
+            animation: modal-slide-up 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+            position: relative;
+        }
+
+        @keyframes modal-slide-up {
+            from { 
+                opacity: 0;
+                transform: translateY(80px) scale(0.9);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .secret-content h2 {
+            color: #5FCDBE;
+            font-size: 2.5rem;
+            margin-bottom: 2.5rem;
+            text-shadow: 0 0 30px rgba(95, 205, 190, 0.5);
+        }
+
+        .secret-content p {
+            color: #2d2520;
+            line-height: 2;
+            font-size: 1.2rem;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 3rem;
+            color: #5FCDBE;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            transform: rotate(90deg) scale(1.3);
+            color: #2d2520;
+        }
+
+        /* Fireworks */
+        .firework {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #5FCDBE;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .cards-container,
+            .reasons-grid,
+            .goals-container {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 4rem 1.5rem;
+            }
+
+            .fireworks-trigger {
+                bottom: 20px;
+                right: 20px;
+                width: 60px;
+                height: 60px;
+                font-size: 1.7rem;
+            }
+
+            .final-message-box {
+                padding: 3rem 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Confetti Container -->
+    <div class="confetti-container" id="confetti"></div>
+
+    <!-- Hero -->
+    <section class="hero">
+        <h1>HAPPY BIRTHDAY NATHAN</h1>
+        <div class="birthday-icon">🎉</div>
+    </section>
+
+    <!-- Who You Are -->
+<section>
+    <h2 class="section-title">I appreciate everything you are</h2>
+    <div class="cards-container">
+        <div class="interactive-card">
+            <div class="card-icon">☕</div>
+            <h3 class="card-title">Coffee Connoisseur</h3>
+        </div>
+        <div class="interactive-card">
+            <div class="card-icon">🥋</div>
+            <h3 class="card-title">Jiujitsu Master</h3>
+        </div>
+        <div class="interactive-card">
+            <div class="card-icon">💪</div>
+            <h3 class="card-title">Gym Machine</h3>
+        </div>
+        <div class="interactive-card">
+            <div class="card-icon">🧠</div>
+            <h3 class="card-title">Strategic Mind</h3>
+        </div>
+    </div>
+</section>
+
+    <!-- Why You're Great -->
+    <section>
+        <h2 class="section-title">Some special things about you</h2>
+        <div class="reasons-grid">
+            <div class="reason-item">Your sense of humor</div>
+            <div class="reason-item">Your dedication</div>
+            <div class="reason-item">Your all-or-nothing approach</div>
+            <div class="reason-item">Your unwavering confidence</div>
+            <div class="reason-item">Your work ethic</div>
+            <div class="reason-item">Your care towards people</div>
+            <div class="reason-item">Your masculinity</div>
+            <div class="reason-item">Your athleticism</div>
+            <div class="reason-item">Your resilience</div>
+            <div class="reason-item">Your commanding presence</div>
+            <div class="reason-item">Your intelligence</div>
+            <div class="reason-item">Your ambition</div>
+        </div>
+    </section>
+
+    <!-- This Year Ahead -->
+    <section>
+        <h2 class="section-title">This Year Ahead</h2>
+        <div class="goals-container">
+            <div class="goal-card">
+                <div class="goal-icon">🚀</div>
+                <h3 class="goal-title">Success & Growth</h3>
+                <p class="goal-text">More building, more achieving, more leveling up in every area of your life</p>
+            </div>
+            <div class="goal-card">
+                <div class="goal-icon">⚡</div>
+                <h3 class="goal-title">Fitness Goals</h3>
+                <p class="goal-text">Pushing harder, getting stronger, crushing every milestone you set</p>
+            </div>
+            <div class="goal-card">
+                <div class="goal-icon">✨</div>
+                <h3 class="goal-title">The Best Year Yet</h3>
+                <p class="goal-text">More experiences, more knowledge, more becoming the best version of yourself</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final Message -->
+    <section>
+        <div class="final-message-box">
+            <p>
+                You're genuinely one of the most impressive people I know. The way you dedicate yourself to everything - gym, business, learning, life - it's truly inspiring.
+            </p>
+            <p>
+                45 looks really good on you. And I hope this year is full of more success, prosperity and much to look forward to.
+            </p>
+            <p>
+                Cheers to you, boss man!
+            </p>
+            <p class="signature">
+                - Someone who thinks you're pretty amazing 🎉
+            </p>
+        </div>
+    </section>
+
+    <!-- Fireworks Trigger -->
+    <div class="fireworks-trigger" title="Click for surprise!" onclick="triggerFireworks()">🎆</div>
+
+    <!-- Secret Modal -->
+    <div class="secret-modal">
+        <div class="close-btn" onclick="closeModal()">×</div>
+        <div class="secret-content">
+            <h2>You Found It!</h2>
+            <p>
+                I'm so excited for April I can barely stand it. Get ready for the best Moroccan food, the best tour guide (me obviously), and hopefully the best birthday celebration you've had in a while. And happy birthday, in case you haven't caught on. 🎉💙
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Confetti on load
+        function createConfetti() {
+            const container = document.getElementById('confetti');
+            const colors = ['#5FCDBE', '#4AB5A5', '#6DD4C4', '#4DB8A8'];
+            
+            for (let i = 0; i < 150; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                container.appendChild(confetti);
+            }
+
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+
+        createConfetti();
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section-title, .interactive-card, .reason-item, .goal-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Stagger card animations
+        document.querySelectorAll('.interactive-card').forEach((card, i) => {
+            card.style.transitionDelay = `${i * 0.15}s`;
+        });
+
+        document.querySelectorAll('.reason-item').forEach((item, i) => {
+            item.style.transitionDelay = `${i * 0.1}s`;
+        });
+
+        document.querySelectorAll('.goal-card').forEach((card, i) => {
+            card.style.transitionDelay = `${i * 0.2}s`;
+        });
+
+        // Fireworks
+        function triggerFireworks() {
+            createFireworksEffect();
+            setTimeout(() => {
+                document.querySelector('.secret-modal').classList.add('active');
+            }, 500);
+        }
+
+        function createFireworksEffect() {
+            const colors = ['#5FCDBE', '#4AB5A5', '#6DD4C4'];
+            for (let i = 0; i < 50; i++) {
+                const firework = document.createElement('div');
+                firework.className = 'firework';
+                firework.style.left = '50%';
+                firework.style.top = '50%';
+                firework.style.background = colors[Math.floor(Math.random() * colors.length)];
+                
+                const angle = (Math.PI * 2 * i) / 50;
+                const velocity = 100 + Math.random() * 100;
+                
+                document.body.appendChild(firework);
+                
+                const animation = firework.animate([
+                    { transform: 'translate(0, 0)', opacity: 1 },
+                    { 
+                        transform: `translate(${Math.cos(angle) * velocity}px, ${Math.sin(angle) * velocity}px)`,
+                        opacity: 0
+                    }
+                ], {
+                    duration: 1000 + Math.random() * 500,
+                    easing: 'cubic-bezier(0, 0.5, 0.5, 1)'
+                });
+                
+                animation.onfinish = () => firework.remove();
+            }
+        }
+
+        function closeModal() {
+            document.querySelector('.secret-modal').classList.remove('active');
+        }
+
+        document.querySelector('.secret-modal').addEventListener('click', (e) => {
+            if (e.target.classList.contains('secret-modal')) {
+                closeModal();
+            }
+        });
+
+        // 3D card tilt effect
+        document.querySelectorAll('.interactive-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-20px) scale(1.05)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+    </script>
+</body>
+</html>
